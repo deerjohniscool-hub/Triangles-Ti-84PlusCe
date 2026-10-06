@@ -33,15 +33,15 @@ static void say(const char *fmt,...) {
 static void missing_angle(double *A,int k,int i,int j) {
     A[k]=180-A[i]-A[j];
     say("%c=180-%c-%c",angle[k],angle[i],angle[j]);
-    say(" =180-%.7g-%.7g",A[i],A[j]);
-    say("%c=%.7g deg",angle[k],A[k]);
+    say(" =180-%.2f-%2f",A[i],A[j]);
+    say("%c=%.2f deg",angle[k],A[k]);
 }
 static void sine_side(double *s,double *A,int k,int i) {
     s[k]=s[i]*sn(A[k])/sn(A[i]);
     say("%c=%c*sin(%c)/sin(%c)",side[k],side[i],angle[k],angle[i]);
-    say(" =%.7g*sin(%.7g)",s[i],A[k]);
-    say(" /sin(%.7g)",A[i]);
-    say("%c=%.7g",side[k],s[k]);
+    say(" =%.2f*sin(%.2f)",s[i],A[k]);
+    say(" /sin(%.2f)",A[i]);
+    say("%c=%.2f",side[k],s[k]);
 }
 static void cosine_angle(double *s,double *A,int k) {
     int i=(k+1)%3,j=(k+2)%3;
@@ -49,12 +49,12 @@ static void cosine_angle(double *s,double *A,int k) {
     A[k]=acos(clamp(r))*180/PI;
     say("cos(%c)=(%c^2+%c^2-%c^2)",angle[k],side[i],side[j],side[k]);
     say(" /(2*%c*%c)",side[i],side[j]);
-    say(" =(%.7g^2+%.7g^2",s[i],s[j]);
-    say(" -%.7g^2)/",s[k]);
-    say(" (2*%.7g*%.7g)",s[i],s[j]);
-    say("cos(%c)=%.7g",angle[k],r);
-    say("%c=acos(%.7g)",angle[k],clamp(r));
-    say("%c=%.7g deg",angle[k],A[k]);
+    say(" =(%.2f^2+%.2f^2",s[i],s[j]);
+    say(" -%.2f^2)/",s[k]);
+    say(" (2*%.2f*%.2f)",s[i],s[j]);
+    say("cos(%c)=%.2f",angle[k],r);
+    say("%c=acos(%.2f)",angle[k],clamp(r));
+    say("%c=%.2f deg",angle[k],A[k]);
 }
 static void finish(double *s,double *A,int sol) {
     double p=(s[0]+s[1]+s[2])/2;
@@ -62,21 +62,21 @@ static void finish(double *s,double *A,int sol) {
     double area=sqrt(fmax(0,r));
     say(" "); say("HERON'S FORMULA");
     say("p=(a+b+c)/2");
-    say(" =(%.7g+%.7g",s[0],s[1]);
-    say(" +%.7g)/2=%.7g",s[2],p);
+    say(" =(%.2f+%.2f",s[0],s[1]);
+    say(" +%.2f)/2=%.2f",s[2],p);
     say("K=sqrt(p*(p-a)*"); say(" (p-b)*(p-c))");
-    say("K=sqrt(%.7g*",p);
-    say(" %.7g*%.7g*",p-s[0],p-s[1]);
-    say(" %.7g)",p-s[2]);
-    say("K=sqrt(%.7g)",fmax(0,r));
-    say("Area=%.7g",area);
+    say("K=sqrt(%.2f*",p);
+    say(" %.2f*%.2f*",p-s[0],p-s[1]);
+    say(" %.2f)",p-s[2]);
+    say("K=sqrt(%.2f)",fmax(0,r));
+    say("Area=%.2f",area);
     say(" "); say("FINAL: SOLUTION %d",sol+1);
     for(int i=0;i<3;++i) {
         results[sol][i]=s[i]; results[sol][i+3]=A[i];
-        say("%c=%.7g %c=%.7g deg",side[i],s[i],angle[i],A[i]);
+        say("%c=%.2f %c=%.2f deg",side[i],s[i],angle[i],A[i]);
     }
     results[sol][6]=area;
-    say("Area=%.7g sq units",area);
+    say("Area=%.2f sq units",area);
 }
 /* Public core: input [a,b,c,A,B,C], return number of solutions. */
 int solve(const double *input) {
